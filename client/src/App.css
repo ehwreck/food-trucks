@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: #72d4f5;
 }
 
 .App-logo {
@@ -32,7 +33,25 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+#results-table {
+  max-width: 90%;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto 20px auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 5px;
+}
+
+.result {
+  border: 1px solid #cdcdcd;
+  border-radius: 5px;
+  height: 200px;
+  background-color: #f7fdff;
 }

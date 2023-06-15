@@ -15,10 +15,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // This will retrieve all food trucks
 app.get('/', async (req, res) => {
-  const data = await axios.get("https://data.sfgov.org/resource/rqzj-sfat.json")
-  console.log(data);
+  const response = await axios.get("https://data.sfgov.org/resource/rqzj-sfat.json")
+  console.log({ data: response.data });
   res.setHeader('Content-Type', 'application/json');
-  res.status(200).send(data);
+  res.status(200).send({ data: response.data });
 })
 
 app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
