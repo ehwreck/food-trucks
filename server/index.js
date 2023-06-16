@@ -41,7 +41,7 @@ app.post('/', async (req, res) => {
     truck.relevance = relevance;
   })
 
-  const sortedResultsByRelevance = foodTrucks.sort((a, b) => {
+  const sortedResultsByRelevance = foodTrucks.filter(truck => truck.relevance > 0).sort((a, b) => {
     if (a.relevance > b.relevance) {
       return -1;
     } else {

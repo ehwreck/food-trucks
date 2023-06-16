@@ -7,12 +7,23 @@ export default function ResultsList({ searchResults }){
 
   return(
     <div id="results-table">
-      {display.map((result, index) => {
-        return <div className="result" key={`food-truck-result-${index}`}>
-          <h4>{result.name}</h4>
-          <p>{result.address}</p>
+      {
+        display.length === 0 &&
+        <div className="result">
+            <h4>No results found.</h4>
         </div>
-      })}
+      }
+      {
+        display.length > 0 && 
+        display.map((result, index) => {
+          return (
+            <div className="result" key={`food-truck-result-${index}`}>
+              <h4>{result.name}</h4>
+              <p>{result.address}</p>
+            </div>
+          )
+        })
+      }
     </div>
   )
 }
