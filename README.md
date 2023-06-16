@@ -34,3 +34,18 @@ Your assignment is to make it possible for our teams to do something interesting
 
 This is a freeform assignment. You can write a web API that returns a set of food trucks. You can write a web frontend that visualizes the nearby food trucks for a given place. You can create a CLI that lets us get the names of all the taco trucks in the city. You can create system that spits out a container with a placeholder webpage featuring the name of each food truck to help their marketing efforts. You're not limited by these ideas at all, but hopefully those are enough help spark your own creativity.
 San Francisco's food truck open dataset is [located here](https://data.sfgov.org/Economy-and-Community/Mobile-Food-Facility-Permit/rqzj-sfat/data) and there is an endpoint with a [CSV dump of the latest data here](https://data.sfgov.org/api/views/rqzj-sfat/rows.csv). We've also included a copy of the data in this repo as well.
+
+
+## Developer Notes
+To start the servers run the following command in the root directory: `npm start`
+
+The functionality added is listed below:
+- If the searchbox is empty - general results will be displayed
+- If the searchbox is not empty a search will be requested from the api. The API will then return results based on relevance from the keywords entered. Relevance is calculated based on how many times the keywords in the searchbox are present in a given result. If no relevant results are found a "No results found" indicator will be shown in the application. If relevant results were found, results will be sorted by relevance. The most relevant results will be listed first. The UI will only show the first 12 results. I will maybe add pagination. (Let me know if you want to see this.)
+- The front end application is a react application and it is running on PORT 3000.
+- The NODE JS API is running on PORT 3001
+- The HTTP request from the React application to the NODE JS API is being made using the fetch API.
+- The Node JS server has two endpoint.
+- The first endpoint is for a GET request with path '/'. This first endpoint creates a new array of objects with only the name, address, and menu.
+- The second endpoing is for a POST request with path '/'. This second endpoint creates a new array of objects with only the name, address, and menu. It then calculates relevancy from the results (previously explained) and adds a property to the objects called relevance which contains an integer value. The array is then filtered to only show relevant results by removing all object with a relevance of 0. The array is then sorted by the relevance property and places the most relevant results first.
+
