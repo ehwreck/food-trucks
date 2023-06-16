@@ -1,11 +1,15 @@
 import React from 'react';
 
 export default function ResultsList({ searchResults }){
+  
+  const chunkSize = 12;
+  const display = searchResults.slice(0, chunkSize);
+
   return(
     <div id="results-table">
-      {searchResults.map((result, index) => {
+      {display.map((result, index) => {
         return <div className="result" key={`food-truck-result-${index}`}>
-          <h4>{result.applicant}</h4>
+          <h4>{result.name}</h4>
           <p>{result.address}</p>
         </div>
       })}

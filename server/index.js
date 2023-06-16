@@ -15,10 +15,42 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // This will retrieve all food trucks
 app.get('/', async (req, res) => {
-  const response = await axios.get("https://data.sfgov.org/resource/rqzj-sfat.json")
-  console.log({ data: response.data });
+  const response = (await axios.get("https://data.sfgov.org/resource/rqzj-sfat.json")).data.map(result => ({
+    name: result.applicant,
+    address: result.address,
+    menu: result.fooditems
+  }));
   res.setHeader('Content-Type', 'application/json');
-  res.status(200).send({ data: response.data });
+  res.status(200).send({ data: response });
+})
+
+app.post('/', async (req, res) => {
+  const { searchText } = req.body;
+  const searchKeywords = searchText.toLowerCase().split(' ');
+  const foodTrucks = (await axios.get("https://data.sfgov.org/resource/rqzj-sfat.json")).data.map(result => ({
+    name: result.applicant,
+    address: result.address,
+    menu: result.fooditems ? result.fooditems.split(':').map(item => item.trim()) : []
+  }))
+
+  foodTrucks.forEach(truck => {
+    let relevance = 0;
+    searchKeywords.forEach(keyword => {
+      relevance += Object.values(truck).flat().filter(word => word.toLowerCase() === keyword || word.toLowerCase().includes(keyword)).length
+    })
+    truck.relevance = relevance;
+  })
+
+  const sortedResultsByRelevance = foodTrucks.sort((a, b) => {
+    if (a.relevance > b.relevance) {
+      return -1;
+    } else {
+      return 1;
+    }
+  })
+
+  res.setHeader('Content-Type', 'application/json');
+  res.status(200).send({ data: sortedResultsByRelevance });
 })
 
 app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
